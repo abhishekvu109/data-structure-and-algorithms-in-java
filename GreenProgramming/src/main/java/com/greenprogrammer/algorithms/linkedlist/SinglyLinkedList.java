@@ -99,8 +99,19 @@ public class SinglyLinkedList<T> {
         return node;
     }
 
+    private SinglyNode<T> reverse(SinglyNode<T> current, SinglyNode<T> previous) {
+        if (current.getNext() == null) {
+            return previous;
+        }
+        SinglyNode<T> head = reverse(current.getNext(), current);
+        previous.setNext(current);
+        current.setNext(previous);
+        return head;
+    }
+
     public void reverse() {
-        this.reverse(this.head);
+//        this.reverse(this.head);
+        this.head = this.reverse(this.head, null);
     }
 
     @Override

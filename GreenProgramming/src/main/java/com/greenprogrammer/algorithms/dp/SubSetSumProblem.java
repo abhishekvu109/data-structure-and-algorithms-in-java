@@ -2,13 +2,10 @@ package com.greenprogrammer.algorithms.dp;
 
 public class SubSetSumProblem {
     public static int subsetSum(int[] arr, int sum, int n) {
-        if (n == 0) {
-            return (sum == 0) ? 1 : 0;
-        }
-//        if (sum == 0)
-//            return 1;
-//        if (sum < 0)
-//            return 0;
+        if (sum == 0)
+            return 1;
+        if (n == 0 || sum < 0)
+            return 0;
         int exclude = subsetSum(arr, sum, n - 1);
         int include = subsetSum(arr, sum - arr[n - 1], n - 1);
         return exclude + include;
@@ -22,9 +19,9 @@ public class SubSetSumProblem {
         for (int i = 1; i < n + 1; i++) {
             for (int j = 1; j < sum + 1; j++) {
                 int exclude = dp[i - 1][j];
-                int remaining = j - arr[i - 1];
-                int include = ((remaining == 0) ? 1 : 0) + ((remaining < 0) ? 0 : dp[i - 1][j - arr[i - 1]]);
-                dp[i][j] = exclude + include;
+                int include = (j - arr[i - 1]) < 0 ? 0 : dp[i - 1][j - arr[i - 1]];
+                dp[i][j] = include + exclude;
+
             }
         }
         return dp[n][sum];
@@ -39,9 +36,10 @@ public class SubSetSumProblem {
             arr[i] = Integer.parseInt(ch);
             i++;
         }
-//        int[] arr = {1,2,3};
+//        int[] arr = {2, 5, 3};
         int n = arr.length;
-        int sum = 1155;
+        int sum = 1185;
+//        int sum = 8;
 //        int subsetProblem = subsetSum(arr, sum, n);
         int subsetProblemDp = subsetSumDp(arr, sum, n);
 //        System.out.printf("\nThe output of subset problem = %d", subsetProblem);
